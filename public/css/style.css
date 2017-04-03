@@ -49,7 +49,7 @@ img {
 	background-position :bottom;
 }
 #header div {
-	width :960px;
+	width :1200px;
 	margin :0 auto;
 	height :203px;
 	position :relative;
@@ -73,7 +73,7 @@ img {
 	left :0px;
 	top :160px;
 	overflow :hidden;
-	width :620px;
+	width :6200px;
 }
 #header div ul.navigation li {
 	float :left;

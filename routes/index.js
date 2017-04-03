@@ -11,6 +11,15 @@ router.get('/about', function(req, res, next) {
 router.get('/menu', function(req, res, next) {
   res.render('fronts/burger.ejs', { page: 'menu' });
 });
+router.get('/register', function(req, res, next) {
+  res.render('fronts/register.ejs', { page: 'register' });
+});
+router.get('/log-in', function(req, res, next) {
+  res.render('fronts/log-in.ejs', { page: 'log-in' });
+});
+router.get('/log-out', function(req, res, next) {
+  res.render('fronts/log-out.ejs', { page: 'log-out' });
+});
 // router.get('/menu/:menu_name', function(req, res, next) {
 //   var menu_name = req.params.menu_name;
 //   res.render('fronts/burger.ejs', { page: 'menu', menu_name: menu_name });
