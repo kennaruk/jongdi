@@ -10,6 +10,9 @@ var app = express();
 exports.test = function() {
   console.log("TEST");
 }
+
+
+
 connection.connect(function(err){
   if(!err) {
       console.log("Jongdi Database is connected");
