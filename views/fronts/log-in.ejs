@@ -1,12 +1,77 @@
 <% include header.ejs %>
+	<style>
+	body {
+		font-family: sans-serif;
+		font-weight: normal;
+		margin: 10px;
+		color: #999;
+		background-color: #eee;
+	}
 
+	form {
+		margin: 40px 0;
+	}
+
+	div {
+		clear: both;
+		margin: 0 50px;
+	}
+
+	label {
+	  width: 200px;
+	  border-radius: 3px;
+	  border: 1px solid #D1D3D4
+	}
+
+	/* hide input */
+	input.radio:empty {
+		margin-left: -999px;
+	}
+
+	/* style label */
+	input.radio:empty ~ label {
+		position: relative;
+		float: left;
+		line-height: 2.5em;
+		text-indent: 3.25em;
+		margin-top: 2em;
+		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	input.radio:empty ~ label:before {
+		position: absolute;
+		display: block;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		content: '';
+		width: 2.5em;
+		background: #D1D3D4;
+		border-radius: 3px 0 0 3px;
+	}
+
+	/* toggle hover */
+	input.radio:hover:not(:checked) ~ label:before {
+		content:'\2714';
+		
+</style>
 	<div id="body">
 		<div class="content">
 			<div>
 				<div>
-					<h1>Log-in</h1>
+					<h1>Login</h1>
 					<h4>Just fill in the form below.</h4>
+					<form action="">
+						<input type="radio" name="status" value="shop">Shop
+
+						<input type="radio" name="status" value="user"> User
+					</form>
           	<form action="contact.html">
+
 						<label for="name"> <span class="text">Your Name:</span>
 							<input type="text" name="name" id="name">
 						</label>
