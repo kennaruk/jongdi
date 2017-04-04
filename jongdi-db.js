@@ -8,7 +8,36 @@ var connection = mysql.createConnection({
 });
 var app = express();
 exports.test = function() {
-  console.log("TEST");
+  connection.query('SELECT * from user', function(err, rows, fields) {
+    connection.end();
+      if (!err)
+        console.log('The solution is: ', rows.length);
+      else
+        console.log('Error while performing Query.');
+  });
+}
+
+exports.getTopThree = function(callback) {
+  connection.query('SELECT COUNT(DISTINCT item_id) Total FROM reserve', function(err, rows, fields) {
+  // connection.query('SELECT item_id FROM ( select item_id, count(*) as count)', function(err, rows, fields) {
+
+    // connection.end();
+    if(!err) {
+      callback(err, rows, fields);
+    } else {
+      console.log('Get TOP-THREE Error');
+    }
+  });
+}
+
+exports.getLastItem = function(callback) {
+  connection.query('SELECT LAST(item_id) FROM item', function(err, rows, fields) {
+    if(!err) {
+      callback(err, rows, fields);
+    } else {
+      console.log('GetLastItem Error');
+    }
+  });
 }
 
 

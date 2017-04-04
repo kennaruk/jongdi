@@ -12,6 +12,17 @@ var app = express();
 
 //jongdi db
 todb = require('./jongdi-db.js');
+// todb.test();
+// todb.getTopThree(function(err, rows, fields) {
+//   for(var i = 0 ; i < rows.length ; i++) {
+//     console.log(rows[i]);
+//   }
+// });
+// todb.getLastItem(function(err, rows, fields) {
+//   for(var i = 0 ; i < rows.length ; i++) {
+//     console.log(rows[i]);
+//   }
+// });
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
