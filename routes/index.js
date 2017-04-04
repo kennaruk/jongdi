@@ -20,6 +20,9 @@ router.get('/log-in', function(req, res, next) {
 router.get('/log-out', function(req, res, next) {
   res.render('fronts/log-out.ejs', { page: 'log-out' });
 });
+router.get('/cart', function(req, res, next) {
+  res.render('fronts/cart.ejs', { page: 'cart' });
+});
 // router.get('/menu/:menu_name', function(req, res, next) {
 //   var menu_name = req.params.menu_name;
 //   res.render('fronts/burger.ejs', { page: 'menu', menu_name: menu_name });

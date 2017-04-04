@@ -1,4 +1,20 @@
 <% include header.ejs %>
+<style>
+.button {
+	background-color: #800000;
+	border: white;
+	color: white;
+	padding: 10px 20px;
+	/*width: 100px;*/
+	/*height: 50px;*/
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 2px 2px;
+	cursor: pointer;
+	/*white-space: normal;*/
+}
+</style>
 
 	<div id="body">
 		<div class="content">
@@ -6,9 +22,16 @@
 				<div>
 					<h1>Register</h1>
 					<h4>Just fill in the form below.</h4>
+
+
+					<input type="button" class="button" value="Shop">
+					<input type="button" class="button" value="User">
           	<form action="contact.html">
 						<label for="name"> <span class="text">Your Name:</span>
 							<input type="text" name="name" id="name">
+						</label>
+						<label for="Telephone"> <span>Telephone:</span>
+							<input type="text" name="Telephone" id="Telephone">
 						</label>
 						<label for="email"> <span>Your E-mail:</span>
 							<input type="text" name="email" id="email">
@@ -19,7 +42,10 @@
 						<label for="Reenter-password"> <span>Reenter-password:</span>
 							<input type="text" name="Reenter-password" id="Reenter-password">
 						</label>
-						<input type="submit" value=""> 
+						<label for="Emergency-contact"> <span>Emergency-contact:</span>
+							<input type="text" name="Emergency-contact" id="Emergency-contact">
+						</label>
+						<input type="submit" value="">
 					</form>
 				</div>
 			</div>
