@@ -7,13 +7,57 @@ var connection = mysql.createConnection({
   database : 'jongdi'
 });
 var app = express();
-exports.test = function() {
-  connection.query('SELECT * from user', function(err, rows, fields) {
-    connection.end();
-      if (!err)
-        console.log('The solution is: ', rows.length);
-      else
-        console.log('Error while performing Query.');
+var db = require("./jongdi-db.js")
+
+connection.connect(function(err){
+  if(!err) {
+      console.log("Jongdi Database is connected");
+  } else {
+      console.log("Jongdi Database connecting ERROR");
+  }
+});
+
+// app.get("/",function(req,res){
+//   connection.query('SELECT * from object LIMIT 2', function(err, rows, fields) {
+//   connection.end();
+//     if (!err)
+//       console.log('The solution is: ', rows);
+//     else
+//       console.log('Error while performing Query.');
+//     });
+// });
+
+exports.tmp = function() {
+  var execute = ';';
+  connection.query(execute, function(err, rows, fields) {
+    if(!err) {
+
+    } else {
+
+    }
+  });
+}
+
+exports.findItem = function(item, callback) {
+  var execute = 'SELECT * FROM item WHERE item_id = \''+item+'\';';
+  connection.query(execute, function(err, rows, fields) {
+    if(!err) {
+      callback(err, rows, fields);
+    } else {
+      console.log("find item error db");
+    }
+  });
+}
+
+exports.getItemLists = function(callback) {
+  var execute = 'SELECT * from item';
+  connection.query(execute, function(err, rows, fields) {
+    if(!err) {
+      console.log(rows);
+      callback(err, rows, fields)
+    } else {
+      console.log("get item lists error db");
+    }
   });
 }
 
@@ -29,7 +73,41 @@ exports.getTopThree = function(callback) {
     }
   });
 }
-
+exports.register = function(name, addr, phone, pass, email, contact, callback) {
+  var exec = 'INSERT INTO user (user_name, user_addr, user_phone, user_pass, user_email, user_contact) VALUES (\''+name+'\', \''+addr+'\', '+phone+', \''+pass+'\', \''+email+'\', \''+contact+'\');';
+  console.log(exec);
+  connection.query(exec, function(err, rows) {
+    if(!err) {
+      callback(err);
+      console.log("Register success");
+    } else {
+      console.log("resgister db error");
+      console.log(err);
+      callback(err);
+    }
+  });
+}
+// db.register('kenfromjs', 'test', '0832619668', 'kenn', 'wow');
+exports.isRegister = function(email, callback) {
+  connection.query('SELECT * FROM user', function(err, rows, fields) {
+    if(!err) {
+      console.log("wow");
+      for(var i = 0 ; i < rows.length ; i++) {
+        if(email == rows[i].user_email) {
+          callback(true);
+          return;
+        }
+      }
+      callback(false);
+    } else {
+      console.log('isRegister Error');
+    }
+  });
+}
+// var isRegister;
+// db.isRegister('kennaruk', function(isRegister){
+//   console.log(isRegister);
+// });
 exports.getLastItem = function(callback) {
   connection.query('SELECT LAST(item_id) FROM item', function(err, rows, fields) {
     if(!err) {
@@ -42,22 +120,6 @@ exports.getLastItem = function(callback) {
 
 
 
-connection.connect(function(err){
-  if(!err) {
-      console.log("Jongdi Database is connected");
-  } else {
-      console.log("Jongdi Database connecting ERROR");
-  }
-});
 
-app.get("/",function(req,res){
-  connection.query('SELECT * from object LIMIT 2', function(err, rows, fields) {
-  connection.end();
-    if (!err)
-      console.log('The solution is: ', rows);
-    else
-      console.log('Error while performing Query.');
-    });
-});
 
 app.listen(8000);

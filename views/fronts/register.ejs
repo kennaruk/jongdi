@@ -24,42 +24,111 @@
 					<h4>Just fill in the form below.</h4>
 
 
-					<input type="button" class="button" value="Shop">
+					<!-- <input type="button" class="button" value="Shop"> -->
 					<input type="button" class="button" value="User">
-          	<form action="contact.html">
-						<label for="name"> <span class="text">Your Name:</span>
-							<input type="text" name="name" id="name">
-						</label>
-						<label for="Telephone"> <span>Telephone:</span>
-							<input type="text" name="Telephone" id="Telephone">
-						</label>
+          	<form>
 						<label for="email"> <span>Your E-mail:</span>
 							<input type="text" name="email" id="email">
 						</label>
-						<label for="password"> <span>Password:</span>
-							<input type="text" name="password" id="password">
+						<label for="password" > <span>Password:</span>
+							<input type="password" name="password" id="password">
 						</label>
-						<label for="Reenter-password"> <span>Reenter-password:</span>
-							<input type="text" name="Reenter-password" id="Reenter-password">
+						<label for="Reenter-password" > <span>Re-enter password:</span>
+							<input type="password" name="Reenter-password" id="re-password">
 						</label>
-						<label for="Emergency-contact"> <span>Emergency-contact:</span>
-							<input type="text" name="Emergency-contact" id="Emergency-contact">
+						<label for="name"> <span class="text">Your Name:</span>
+							<input type="text" name="name" id="name">
 						</label>
-						<input type="submit" value="">
+						<label for="Address"> <span class="text"> <span>Address:</span>
+							<input type="text" name="address" id="address">
+						</label>
+						<label for="Telephone"> <span class="text"> <span>Telephone:</span>
+							<input type="text" name="Telephone" id="phone">
+						</label>
+						<label for="Emergency-contact"> <span class="text">Emergency-contact:</span>
+							<input type="text" name="Emergency-contact" id="emergency-contact">
+						</label>
+						<input type="submit-bttn" value="" id="submit-register-bttn">
 					</form>
 				</div>
 			</div>
 		</div>
 		<div class="sidebar">
-			<h1>Open Everyday</h1>
-			<span>including holidays</span> <span>from 8AM until 1AM</span>
-			<h1>Address</h1>
-			<span>Retro Diner Restaurant</span> <span>2281 Ash Street</span> <span>Dallas, TX 75212</span>
-			<h1>Phone Number</h1>
-			<span>972-879-4317</span>
-			<h1>Open Everyday</h1>
-			<span>including holidays</span> <span>from 8AM until 1AM</span> <a href="breakfast.html" class="download">&nbsp;</a> </div>
+			<h1>Welcome to Jongdi!</h1>
+			<span>enjoy your easily reserving any ticket</span> <span>for 24 hours!</span>
+			<h1>First Step</h1>
+			<span>registration first</span> <span>for coming</span> <span>and joining with us</span>
+			<h1>Contact us</h1>
+			<span>08X-XXX-XXXX</span>
+			<h1>Location</h1>
+			<span>Computer Science</span> <span>at Thammasat University</span>
+			<h1> </h1>
+			<img class="logo" src="images/logo.png" width="513" height="84" alt="" title="">
+		</div>
 	</div>
 	<% include footer.ejs %>
 </body>
 </html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js" type="text/javascript"></script>
+<script>
+function isEmptyOrSpaces(str){
+    return str === null || str.match(/^ *$/) !== null;
+}
+	$('#submit-register-bttn').click(function() {
+			var name = $('#name').val();
+			var phone = $('#phone').val();
+			var addr = $('#address').val();
+			var email = $('#email').val();
+			var password = $('#password').val();
+			var repassword = $('#re-password').val();
+			var contact = $('#emergency-contact').val();
+			if(password != repassword) {
+				alert("Password doesn't match");
+				$('#password').val("");
+				$('#re-password').val("");
+				return;
+			}
+			if(isEmptyOrSpaces(name) || isEmptyOrSpaces(phone) || isEmptyOrSpaces(addr) ||
+					isEmptyOrSpaces(email) || isEmptyOrSpaces(password) || isEmptyOrSpaces(contact)) {
+				alert("Some field is blank, please enter it.");
+				return;
+			}
+			if(isNan(phone)) {
+				alert("Telephone field isnt number, please re-enter it.");
+				$("#phone").val("");
+			}
+			var obj = {};
+			obj['name'] = name;
+			obj['phone'] = phone;
+			obj['addr'] = addr;
+			obj['email'] = email;
+			obj['password'] = password;
+			obj['contact'] = contact;
+			// alert(obj.name);
+			$.ajax({
+			type: "post",
+			data: obj,
+			dataType: "json",
+			url: "/register",
+			success: function(result) {
+				if(result.status == 'isRegisted') {
+					alert("Email was used.");
+					$("#email").val("");
+				} else if(result.status == 'err') {
+					alert("Connection error please try again");
+				} else if(result.status == 'success') {
+					alert("Register success");
+					$('#password').val("");
+					$('#re-password').val("");
+					$("#email").val("");
+					$("#phone").val("");
+					$("#password").val("");
+					$('#address').val("");
+					$('#emergency-contact').val("");
+				} else {
+					alert("else")
+				}
+			}
+		});
+	});
+</script>
