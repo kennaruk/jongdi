@@ -2,13 +2,18 @@
 <% include header.ejs %>
 
 	<div id="body">
-		<div class="featured"> <a href="burger.html"><img src="images/burger-specials.png" width="960" height="590" alt=""></a>
+		<div class="featured"> <a href="/item/<%=first_id%>"><img src="<%= first_picture %>" width="960" height="590" alt=""></a>
 			<h2>Welcome to Jongdi! Website</h2>
 			<p>
 				This website is about to reserve what item you prefer to be the first!.
 			</p>
 			<ul>
-				<li>
+				<% for(var i = 0 ; i < bottoms.length ; i++) { %>
+					<li>
+						<a href="/item/<%=bottoms[i].id%>"><img src="<%=bottoms[i].picture%>" width="284" height="214" alt=""></a>
+					</li>
+				<% } %>
+				<!-- <li>
 					<a href="/hotdog"><img src="images/hotdogs.jpg" width="284" height="214" alt=""></a>
 				</li>
 				<li>
@@ -16,7 +21,7 @@
 				</li>
 				<li>
 					<a href="/breakfast"><img src="images/breakfast.jpg" alt="" width="284" height="214"></a>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 	</div>
