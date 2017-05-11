@@ -19,5 +19,6 @@
       $('#register-bttn').show();
     }
     console.log("status = "+'<%=user['status']%>');
+    $('#<%=page%>').addClass("active");
   });
 </script>

@@ -187,7 +187,7 @@ router.get('/register', function(req, res, next) {
                 user_contact: req.session['user_contact'] };
   if(req.session.user == undefined)
     user['status'] = 'log-in-failed';
-  res.render('fronts/register.ejs', { user: user, page: 'register' });
+  res.render('fronts/register.ejs', { user: user, page: 'register-bttn' });
 });
 router.get('/log-in', function(req, res, next) {
   var user = { status: 'log-in-success',
@@ -200,13 +200,13 @@ router.get('/log-in', function(req, res, next) {
   if(req.session.user == undefined)
     user['status'] = 'not-login';
 
-  res.render('fronts/log-in.ejs', { user: user, page: 'log-in' });
+  res.render('fronts/log-in.ejs', { user: user, page: 'log-in-bttn' });
 });
 router.post('/logout', function(req, res, next) {
   req.session.destroy();
 });
 router.get('/log-out', function(req, res, next) {
-  res.render('fronts/log-out.ejs', { page: 'log-out' });
+  res.render('fronts/log-out.ejs', { page: 'log-out-bttn' });
 });
 router.get('/cart', function(req, res, next) {
   res.render('fronts/cart.ejs', { page: 'cart' });
