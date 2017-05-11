@@ -1,0 +1,41 @@
+<% include header.ejs %>
+	<div id="body">
+		<div class="content">
+			<div>
+				<div>
+					<h1><%= name %></h1>
+					<div> <a href="/item/<%= id %>"><img src="<%= picture %>" width="434" height="288" alt=""></a> </div>
+					<ul>
+						<li>
+							<h2><a href="/item/<%= id %>"><%= name %></a></h2>
+							<p>
+								<%= description %>
+							</p>
+							<span class="price"><%= price %></span>
+						</li>
+						<li>
+							<h2><a href="/item/<%= id %>">Stock available</a></h2>
+							<p>
+                Remaining item left on our stock, Let's check it before your purchase!!
+							</p>
+							<span class="price"><%= stock %></span>
+						</li>
+						<!-- <li>
+							<h2><a href="/burger">DJ Run Festival</a></h2>
+							<p>
+								5KM FUN RUN → 5 ZONES WITH LIVE DJs SPINNING → MUSIC FESTIVAL
+								DJ Run Festival is today’s HOTTEST spinning music run featuring actual DJs along the track. You’ll run through our high-energy course while the DJs play live through the speakers to get you running to the beat.
+								Get those endorphins flowing together with your friends for one night ONLY at the after-party dance festival.
+								Move to the beats and DANCE LIKE THERE’S NO TOMORROW!
+							</p>
+							<span class="price">1136</span>
+						</li> -->
+					</ul>
+				</div>
+			</div>
+		</div>
+		<% include slidebar.ejs %>
+	</div>
+	<% include footer.ejs %>
+</body>
+</html>
