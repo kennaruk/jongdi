@@ -35,7 +35,7 @@
 				<a href="/log-in" id="log-in">Login</a>
 			</li>
 			<li>
-				<a href="/log-out" id="log-out">Logout</a>
+				<a href="/" id="log-out-bttn" hidden>Logout</a>
 			</li>
 			<li>
 				<a hidden href="/cart" id="cart" >cart</a>
@@ -46,19 +46,15 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-  <!-- // $(function () {
-	// 	// console.log('<%= page %>');
-  //   $('#<%= page %>').addClass('active');
-	// 	// console.log('<%= page %>' == 'log-out');
-	// 	if ('<%= page %>' == 'log-out') {
-	// 		$('#log-in').hide();
-	// 	} else if('<%= page %>' == 'register'){
-	// 		$('#log-out').hide();
-	// 	}else if('<%= page %>' == 'log-in'){
-	// 		$('#register').hide();
-	// 		// $('#cart').show();
-	// 	}
-	//
-	// 	}
-  // ); -->
+	$(function () {
+		$('#log-out-bttn').click(function() {
+			$.ajax({
+				type: "post",
+				url: "/logout",
+				success: function(result) {
+					console.log("logout success");
+				}
+			});
+		});
+	});
 </script>

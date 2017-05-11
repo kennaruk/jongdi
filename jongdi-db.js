@@ -6,6 +6,18 @@ var connection = mysql.createConnection({
   password : '',
   database : 'jongdi'
 });
+// var connection = mysql.createConnection({
+//   host     : '188.166.248.254',
+//   user     : 'blacksource_ken',
+//   password : 'kentidhe',
+//   database : 'blacksource_kndb'
+// });
+// var connection = mysql.createConnection({
+//   host     : 'mysql.hostinger.in.th',
+//   user     : 'u819621144_jongd',
+//   password : 'kennaruk',
+//   database : 'u819621144_jongd'
+// });
 var app = express();
 var db = require("./jongdi-db.js")
 
@@ -34,6 +46,18 @@ exports.tmp = function() {
 
     } else {
 
+    }
+  });
+}
+
+exports.findUser = function(email, callback) {
+  var execute = 'SELECT * FROM user WHERE user_email = \''+email+'\';';
+  console.log(execute);
+  connection.query(execute, function(err, rows, fields) {
+    if(!err) {
+      callback(err, rows, fields);
+    } else {
+      console.log("find user error db");
     }
   });
 }
