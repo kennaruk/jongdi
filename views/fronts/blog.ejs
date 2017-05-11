@@ -2,7 +2,24 @@
 
 	<div id="body">
 		<div id="section">
-			<div class="section">
+			<% for(var i = 0 ; i < items.length ; i++) { %>
+				<div class="section">
+					<div>
+						<div> <a href=""><img src="<%=items[i].item_picture%>" width="169" height="163" alt=""></a>
+							<h2><a href="/item/<%=items[i].item_id%>"><%=items[i].item_name%></a></h2>
+							<h2>Price <%=items[i].item_price%></h2>
+							<h2>Stock <%=items[i].item_stock%></h2>
+							<h3>Posted by <%=shop[0].shop_name%><a href="#"><%=user['name']%></a></h3>
+							<a href="/delete/<%=items[i].item_id%>"><span>Delete,</span></a> <a href="/edit/<%=items[i].item_id%>"><span>Edit</span></a>
+							<p>
+								<%= items[i].item_description %>
+							</p>
+							<a class="price"> <span>Delete &</span><span>Edit</span></a></div>
+							<!-- <a href="blog.html" class="price">Jan <span>31st</span></a> </div> -->
+					</div>
+				</div>
+			<% } %>
+			<!-- <div class="section">
 				<div>
 					<div> <a href=""><img src="images/breakfast3.jpg" width="169" height="163" alt=""></a>
 						<h2><a href="blog.html">All YOU CAN EAT</a></h2>
@@ -25,12 +42,20 @@
 						</p>
 						<a href="blog.html" class="price">Feb <span>1st</span></a> </div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div class="sidebar">
-			<h1>Recent Posts</h1>
+			<h1>Posts</h1>
 			<ul>
 				<li class="first">
+					Lists of all your posts here!
+				</li>
+				<% for(var i = 0 ; i < items.length ; i ++) { %>
+					<li>
+						<a href="/item/<%=items[i].item_id%>"><%=items[i].item_name%></a>
+					</li>
+				<% } %>
+				<!-- <li class="first">
 					<a href="blog.html">All You Can Eat Breakfast Everyday</a>
 				</li>
 				<li>
@@ -44,9 +69,9 @@
 				</li>
 				<li>
 					<a href="blog.html">Free Retro Diner Tumbler For Every Burger Special Order</a>
-				</li>
+				</li> -->
 			</ul>
-			<h1>Categories</h1>
+			<!-- <h1>Categories</h1>
 			<ul>
 				<li class="first">
 					<a href="blog.html">Promos</a>
@@ -69,7 +94,7 @@
 				<li class="last">
 					<a href="blog.html">2023</a>
 				</li>
-			</ul>
+			</ul> -->
 		</div>
 	</div>
 	<% include footer.ejs %>

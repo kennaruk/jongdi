@@ -227,6 +227,33 @@ router.get('/contact', function(req, res, next) {
     user['status'] = 'log-in-failed';
   res.render('fronts/contact.ejs', { user: user, page: 'contact' });
 });
+router.get('/delete/:itemId', function(req, res, next) {
+  // res.json("delete item id");
+  var item_id = req.params.itemId;
+  db.deleteItemFromId(item_id, function(err) {
+    var user = { status: 'log-in-success',
+                  user_name: req.session['user_name'],
+                  user_addr: req.session['user_addr'],
+                  user_phone: req.session['user_phone'],
+                  user_pass: req.session['user_pass'],
+                  user_email: req.session['user_email'],
+                  user_contact: req.session['user_contact'] };
+    if(req.session.user == undefined)
+      user['status'] = 'log-in-failed';
+    db.getShopItems(2, function(err, rows, fields) { //TODO: 3 is dummy user id
+      if(rows.length == 0) {
+        res.render('fronts/blog.ejs', { shop: {}, items: {}, user: user, page: 'blog' });
+      } else {
+        db.getShopFromId(rows[0].shop_id, function(err, shop, fields) {
+          res.render('fronts/blog.ejs', { shop: shop, items: rows, user: user, page: 'blog' });
+        });
+      }
+    });
+  });
+});
+router.get('/edit/:itemId', function(req, res, next) {
+  res.json("edit itemid");
+});
 router.get('/blog', function(req, res, next) {
   var user = { status: 'log-in-success',
                 user_name: req.session['user_name'],
@@ -237,7 +264,16 @@ router.get('/blog', function(req, res, next) {
                 user_contact: req.session['user_contact'] };
   if(req.session.user == undefined)
     user['status'] = 'log-in-failed';
-  res.render('fronts/blog.ejs', { user: user, page: 'blog' });
+  db.getShopItems(1, function(err, rows, fields) { //TODO: 3 is dummy user id
+    if(rows.length == 0) {
+      res.render('fronts/blog.ejs', { shop: {}, items: {}, user: user, page: 'blog' });
+    } else {
+      db.getShopFromId(rows[0].shop_id, function(err, shop, fields) {
+        res.render('fronts/blog.ejs', { shop: shop, items: rows, user: user, page: 'blog' });
+      });
+    }
+  });
+
 });
 router.get('/shake', function(req, res, next) {
   res.render('fronts/shake.ejs', { page: 'shake' });

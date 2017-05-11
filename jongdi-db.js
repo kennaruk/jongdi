@@ -49,6 +49,44 @@ exports.tmp = function() {
     }
   });
 }
+exports.deleteItemFromId = function(item_id, callback) {
+  var execute = 'DELETE FROM reserve WHERE item_id = '+item_id+';';
+  console.log(execute);
+  connection.query(execute, function(err) {
+    if(!err) {
+      connection.query('DELETE FROM item WHERE item_id = '+item_id+';', function(err) {
+        if(!err)
+          callback(err);
+        else {
+          console.log("delete item item_id error");
+        }
+      })
+    } else {
+      console.log("deleteItemFromId err");
+      console.log(err);
+    }
+  });
+}
+exports.getShopFromId = function(shop_id, callback) {
+  var execute = 'SELECT * FROM shop WHERE shop_id = '+shop_id+';';
+  connection.query(execute, function(err, rows, fields) {
+    if(!err) {
+      callback(err, rows, fields);
+    } else {
+      console.log("Get Shop From Id.");
+    }
+  });
+};
+exports.getShopItems = function(shop_id, callback) {
+  var execute = 'SELECT * FROM item WHERE shop_id = '+shop_id+';';
+  connection.query(execute, function(err, rows, fields) {
+    if(!err) {
+      callback(err, rows, fields);
+    } else {
+      console.log("Get Shop Item Failed.");
+    }
+  });
+}
 
 exports.findUser = function(email, callback) {
   var execute = 'SELECT * FROM user WHERE user_email = \''+email+'\';';
