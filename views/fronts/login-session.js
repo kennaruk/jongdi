@@ -18,6 +18,11 @@
       $('#log-in-bttn').show();
       $('#register-bttn').show();
     }
+    if('<%=user['state']%>' == 'user') {
+      $('#user-item').show();
+    } else if('<%=user['state']%>' == 'shop') {
+      $('#shop-item').show();
+    }
     console.log("status = "+'<%=user['status']%>');
     $('#<%=page%>').addClass("active");
   });

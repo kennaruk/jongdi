@@ -49,6 +49,18 @@ exports.tmp = function() {
     }
   });
 }
+exports.deleteReserveFromId = function(user_id, item_id, callback) {
+  var execute = 'DELETE FROM reserve WHERE user_id = '+user_id+' AND item_id = '+item_id+';';
+  console.log(execute);
+
+  connection.query(execute, function(err, rows, fields) {
+    if(!err)
+      callback(err, rows, fields);
+    else {
+      console.log("delete reserve from id db err");
+    }
+  });
+}
 exports.deleteItemFromId = function(item_id, callback) {
   var execute = 'DELETE FROM reserve WHERE item_id = '+item_id+';';
   console.log(execute);
@@ -73,7 +85,7 @@ exports.getShopFromId = function(shop_id, callback) {
     if(!err) {
       callback(err, rows, fields);
     } else {
-      console.log("Get Shop From Id.");
+      console.log("Get Shop From Id. err");
     }
   });
 };
@@ -87,7 +99,59 @@ exports.getShopItems = function(shop_id, callback) {
     }
   });
 }
-
+exports.getUserFromId = function(user_id, callback) {
+  var execute = 'SELECT * FROM user WHERE user_id = '+user_id+';';
+  connection.query(execute, function(err, rows, fields) {
+    if(!err) {
+      callback(err, rows, fields);
+    } else {
+      console.log("Get user From Id. err");
+    }
+  });
+};
+exports.getItems = function (callback) {
+  var execute = 'SELECT * FROM shop;';
+  connection.query(execute, function(err, rows, fields) {
+    if(!err)
+      callback(err, rows, fields);
+    else {
+      console.log("get items error db");
+    }
+  });
+}
+exports.getShops = function (callback) {
+  var execute = 'SELECT * FROM shop;'
+  connection.query(execute, function(err, rows, fields) {
+    if(!err)
+      callback(err, rows, fields)
+    else {
+      console.log("get shops db err");
+    }
+  });
+}
+exports.getReserveItemsFromId = function(user_id, callback) {
+  // var execute = 'SELECT * FROM reserve WHERE user_id = '+user_id+';';
+  var execute = 'SELECT item.*, reserve.*, shop.*'+
+                ' FROM item INNER JOIN reserve ON item.item_id=reserve.item_id'+
+                ' INNER JOIN shop ON item.shop_id = shop.shop_id;';
+                // ' WHERE user_id = '+user_id+";"
+                // ' UNION'+
+                // ' SELECT shop';
+                // ' INNER JOIN shop s ON i.item_id = s.item_id;';
+                // 'FULL JOIN shop s USING (shop_id);';
+  console.log(execute);
+  connection.query(execute, function(err, rows, fields) {
+    if(!err) {
+      callback(err, rows, fields);
+    } else {
+      console.log("Get reserve Item Failed.");
+    }
+  });
+}
+// db.getReserveItemsFromId(1, function(err, rows, fields) {
+//   console.log("rows = "+rows.length);
+//   console.log(rows);
+// });
 exports.findUser = function(email, callback) {
   var execute = 'SELECT * FROM user WHERE user_email = \''+email+'\';';
   console.log(execute);
