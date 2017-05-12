@@ -24,6 +24,7 @@ router.get('/login', function(req, res, next) {
     }
     else { //login success
       req.session.user = rows[0].user_name;
+      req.session['user_id'] = rows[0].user_id;
       req.session['user_name'] = rows[0].user_name;
       req.session['user_addr'] = rows[0].user_addr;
       req.session['user_phone'] = rows[0].user_phone;
@@ -231,6 +232,28 @@ router.get('/user/delete/:itemId', function(req, res, next) {
   var item_id = req.params.itemId;
   var user_id = 1; //TODO: dummy req.session['user_id'];
   db.deleteReserveFromId(user_id, item_id, function(err, rows, fields) {
+    var user = { status: 'log-in-success',
+                  user_name: req.session['user_name'],
+                  user_addr: req.session['user_addr'],
+                  user_phone: req.session['user_phone'],
+                  user_pass: req.session['user_pass'],
+                  user_email: req.session['user_email'],
+                  user_contact: req.session['user_contact'] };
+    if(req.session.user == undefined)
+      user['status'] = 'log-in-failed';
+    db.getReserveItemsFromId(1, function(err, reserves, fields) { //TODO: 3 is dummy user id
+      if(reserves.length == 0) {
+        res.render('fronts/user-item.ejs', { reserves: {}, user: user, page: 'user-item' });
+      } else {
+        res.render('fronts/user-item.ejs', { reserves: reserves, user: user, page: 'user-item' });
+      }
+    });
+  });
+});
+router.get('/user/reserve/:itemId', function(req, res, next) {
+  var item_id = req.params.itemId;
+  var user_id = req.session['user_id'];
+  db.reserve(user_id, item_id, function(err, rows, fields) {
     var user = { status: 'log-in-success',
                   user_name: req.session['user_name'],
                   user_addr: req.session['user_addr'],

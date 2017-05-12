@@ -49,6 +49,17 @@ exports.tmp = function() {
     }
   });
 }
+exports.reserve = function(user_id, item_id, callback) {
+  var execute = 'INSERT INTO reserve (user_id, item_id) VALUES ('+user_id+', '+item_id+');'
+  console.log(execute);
+  connection.query(execute, function(err, rows, fields) {
+    if(!err)
+      callback(err, rows, fields);
+    else {
+      console.log("reserve db err");
+    }
+  });
+};
 exports.deleteReserveFromId = function(user_id, item_id, callback) {
   var execute = 'DELETE FROM reserve WHERE user_id = '+user_id+' AND item_id = '+item_id+';';
   console.log(execute);

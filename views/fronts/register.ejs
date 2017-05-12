@@ -25,28 +25,28 @@
 
 
 					<!-- <input type="button" class="button" value="Shop"> -->
-					<input type="button" class="button" value="User">
-					<input type="button" class="button" value="Shop">
+					<input type="button" class="button" value="User" id="user-btn">
+					<input type="button" class="button" value="Shop" id="shop-btn">
           	<form action="\log-in">
-						<label for="email"> <span>Your E-mail:</span>
+						<label for="email" id="email-lbl"> <span>Your E-mail:</span>
 							<input type="text" name="email" id="email">
 						</label>
-						<label for="password"> <span>Password:</span>
+						<label for="password" id="password-lbl"> <span>Password:</span>
 							<input type="password" name="password" id="password">
 						</label>
-						<label for="Reenter-password" > <span>Re-enter password:</span>
+						<label for="Reenter-password" id="re-password-lbl"> <span>Re-enter password:</span>
 							<input type="password" name="Reenter-password" id="re-password">
 						</label>
-						<label for="name"> <span class="text">Your Name:</span>
+						<label for="name" id="name-lbl"> <span class="text">Your Name:</span>
 							<input type="text" name="name" id="name">
 						</label>
-						<label for="Address"> <span class="text"> <span>Address:</span>
+						<label for="Address" id="address-lbl"> <span class="text"> <span>Address:</span>
 							<input type="text" name="address" id="address">
 						</label>
-						<label for="Telephone"> <span class="text"> <span>Telephone:</span>
+						<label for="Telephone" id="phone-lbl"> <span class="text"> <span>Telephone:</span>
 							<input type="text" name="Telephone" id="phone">
 						</label>
-						<label for="Emergency-contact"> <span class="text">Emergency-contact:</span>
+						<label for="Emergency-contact" id="emergency-contact-lbl"> <span class="text">Emergency-contact:</span>
 							<input type="text" name="Emergency-contact" id="emergency-contact">
 						</label>
 						<input type="submit" value="" id="submit-register-bttn">
@@ -75,6 +75,14 @@
 function isEmptyOrSpaces(str){
     return str === null || str.match(/^ *$/) !== null;
 }
+	$('#shop-btn').click(function() {
+		$('#name-lbl').text("Shop Name");
+		$('#name').show();
+		$('#address-lbl').hide();
+		$('#address').hide();
+		$('#emergency-contact-lbl').hide();
+		$('#emergency-contact').hide();
+	});
 	$('#submit-register-bttn').click(function() {
 			var name = $('#name').val();
 			var phone = $('#phone').val();
