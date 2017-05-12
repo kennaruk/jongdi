@@ -1,0 +1,94 @@
+<% include header.ejs %>
+
+	<div id="body">
+		<div class="content">
+			<div>
+				<div>
+					<h1><%=item.item_name%></h1>
+					<p>
+						<%=item.item_description%>
+          </p>
+					<h4>Edit any information? Edit the form below and then SEND!</h4>
+					<form action="\blog">
+						<label for="name"> <span class="text">Item Name:</span>
+							<input type="text" name="name" id="item-name-field">
+						</label>
+						<label for="email"> <span>Item Price:</span>
+							<input type="text" name="email" id="item-price-field">
+						</label>
+						<label for="subject"> <span>Item Stock:</span>
+							<input type="text" name="subject" id="item-stock-field">
+						</label>
+            <label for="subject"> <span>Item Picture (URL):</span>
+							<input type="text" name="subject" id="item-picture-field">
+						</label>
+						<label for="message"> <span>Item Description:</span>
+							<textarea name="message" id="item-description-field"></textarea>
+						</label>
+						<input type="submit" value="" id="edit-bttn">
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="sidebar">
+
+      <img src="<%= item.item_picture %>" width="270" height="258" alt="">
+      <h1><%=item.item_name%> Picture</h1>
+			<!-- <span>including holidays</span> <span>from 8AM until 1AM</span> -->
+			<!-- <h1>Price</h1> -->
+			<!-- <span><%=item.item_price%></span> -->
+       <!-- <span>2281 Ash Street</span> <span>Dallas, TX 75212</span> -->
+			<!-- <h1>Stock</h1>
+			<span><%=item.item_stock%></span>
+			<h1>Open Everyday</h1>
+			<span>including holidays</span> <span>from 8AM until 1AM</span> -->
+      <!-- <a href="breakfast.html" class="download">&nbsp;</a> </div> -->
+
+  </div>
+	<% include footer.ejs %>
+</body>
+</html>
+<% include login-session.js %>
+<script>
+  function isEmptyOrSpaces(str){
+      return str === null || str.match(/^ *$/) !== null;
+  }
+  $('#item-name-field').val('<%=item.item_name%>');
+  $('#item-price-field').val('<%=item.item_price%>');
+  $('#item-stock-field').val('<%=item.item_stock%>');
+  $('#item-picture-field').val('<%=item.item_picture%>');
+  $('#item-description-field').val('<%=item.item_description%>');
+  $('#edit-bttn').click(function() {
+    var item_name = $('#item-name-field').val();
+    var item_price =  $('#item-price-field').val();
+    var item_stock =  $('#item-stock-field').val();
+    var item_picture =  $('#item-picture-field').val();
+    var item_description =  $('#item-description-field').val();
+    if(isEmptyOrSpaces(item_name) || isEmptyOrSpaces(item_price) || isEmptyOrSpaces(item_stock) ||
+    isEmptyOrSpaces(item_picture) || isEmptyOrSpaces(item_description)) {
+      alert("Some field is blank, please enter it.");
+      return;
+    }
+    if(isNaN(item_stock) || isNaN(item_price)) {
+      alert("Item stock & item price must be a number, plaease re-enter it.");
+      return;
+    }
+    var obj = {};
+    obj['item_id'] = <%=item.item_id%>;
+    obj['item_name'] = item_name;
+    obj['item_price'] = item_price;
+    obj['item_stock'] = item_stock;
+    obj['item_picture'] = item_picture;
+    obj['item_description'] = item_description;
+    $.ajax({
+      type: "post",
+      data: obj,
+      dataType: "json",
+      url: "/edit",
+      success: function(result) {
+        console.log(result);
+        alert("Edit success!");
+      }
+    });
+  });
+</script>
