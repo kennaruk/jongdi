@@ -1,0 +1,72 @@
+<% include header.ejs %>
+	<style>
+	.button {
+    background-color: #800000;
+    border: white;
+    color: white;
+    padding: 15px 32px;
+		/*width: 100px;*/
+		/*height: 50px;*/
+    text-decoration: none;
+		display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+		/*white-space: normal;*/
+}
+</style>
+	<div id="body">
+		<div class="content">
+			<div>
+				<div>
+          <form action="/log-in">
+						<label for="user-login" id="user-login-lbl"> <h4>Login for User hit Here</h4>
+							<input type="submit" value="" id="user-send-btn">
+						</label>
+					</form>
+					<h1>Login for Shop</h1>
+					<!-- <h4>Just fill in the form below.</h4> -->
+					<!-- <form action=""> -->
+
+					<!-- <button class="button">User</button> -->
+					<!-- <input type="button" class="button" value="Shop"> -->
+					<!-- <button class="button">Shop</button> -->
+					<!-- <input type="button" class="button" value="User"> -->
+						<!-- <button class="button" id="shop-bttn">
+							<h4 style="color:white; white-space: normal; "> Shop</h4></button> -->
+						<!-- <input type="button" class="button" value="Input Button"> -->
+						<!-- <button class="button" id="user-bttn">
+							<h4 style="color:white; white-space: normal;">User</h4></button> -->
+						<!-- <input type="button" class="button" value="Input Button"> -->
+						<!-- <input type="radio" name="status" value="shop">
+						<h4 style="color:Red;">Shop</h4>
+						<!-- <input type="radio" name="status" value="user"> -->
+
+					<!-- </form> -->
+          	<form action="/shop/login">
+
+						<label for="email"> <span class="text">E-mail:</span>
+							<input type="text" name="email" id="email">
+						</label>
+						<label for="password"> <span>Password:</span>
+							<input type="password" name="password" id="password">
+						</label>
+						<input type="submit" value="" id="submit-bttn">
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="sidebar">
+			<h1>Open Everyday</h1>
+			<span>including holidays</span> <span>from 8AM until 1AM</span>
+			<h1>Address</h1>
+			<span>Retro Diner Restaurant</span> <span>2281 Ash Street</span> <span>Dallas, TX 75212</span>
+			<h1>Phone Number</h1>
+			<span>972-879-4317</span>
+			<h1>Open Everyday</h1>
+			<span>including holidays</span> <span>from 8AM until 1AM</span> <a href="breakfast.html" class="download">&nbsp;</a> </div>
+	</div>
+	<% include footer.ejs %>
+</body>
+</html>
+ <% include login-session.js %>

@@ -73,7 +73,7 @@ img {
 	left :0px;
 	top :160px;
 	overflow :hidden;
-	width :6200px;
+	width :100%;
 }
 #header div ul.navigation li {
 	float :left;

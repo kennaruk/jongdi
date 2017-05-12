@@ -11,6 +11,8 @@
       $('#log-out-bttn').show();
       $('#log-in-bttn').hide();
       $('#register').hide();
+      $('#hello-user').show();
+    	$('#hello-user').text("Hello, <%= user['user_name'] %>");
       // if('<%= page %>' == 'home')
 			//    alert('Login success');
 		} else if('<%= user['status'] %>' == 'not-login') {
@@ -20,9 +22,13 @@
     }
     if('<%=user['user_status']%>' == 'user') {
       $('#user-item').show();
+      $('#hello-user').show();
+    	$('#hello-user').text("Hello, <%= user['user_name'] %>");
     } else if('<%=user['user_status']%>' == 'shop') {
       $('#shop-item').show();
       $('#contact').show();
+      $('#hello-user').show();
+    	$('#hello-user').text("Hello, <%= user['user_name'] %>");
     }
     if('<%=user['user_status']%>' != 'shop') {
       $('#menu').show();
