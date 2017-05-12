@@ -7,12 +7,77 @@ router.use(session({
     resave: true,
     saveUninitialized: true
 }));
-var auth = function(req, res, next) {
-  if (req.session && req.session.user === "amy" && req.session.admin)
-    return next();
-  else
-    return res.sendStatus(401);
-};
+// var auth = function(req, res, next) {
+//   if (req.session && req.session.user === "amy" &&lo-gin req.session.admin)
+//     return next();
+//   else
+//     return res.sendStatus(401);
+// };
+router.get('/login', function(req, res, next) {
+  var email = req.query.email;
+  var password = req.query.password;
+  console.log("req session user"+req.session.user);
+  db.findUser(email, function(err, rows, fields) {
+    console.log(rows);
+    if(rows.length == 0 || rows[0].user_pass != password) { //login failed
+      res.render('fronts/log-in.ejs', { page: 'log-in', status: 'log-in-failed' });
+    }
+    else { //login success
+      req.session.user = rows[0].user_name;
+      req.session['user_name'] = rows[0].user_name;
+      req.session['user_addr'] = rows[0].user_addr;
+      req.session['user_phone'] = rows[0].user_phone;
+      req.session['user_pass'] = rows[0].user_pass;
+      req.session['user_email'] = rows[0].user_email;
+      req.session['user_contact'] = rows[0].user_contact;
+      db.getItemLists(function(err, rows, fields) {
+        if(rows.length == 0) {
+          res.render('fronts/null-item.ejs', { page: 'menu', items: rows });
+        } else {
+          var length = rows.length;
+          var first = Math.floor(Math.random() * length);
+          var count = 0;
+          var arr = [];
+          for(var i = 0 ; i < 3 ; i++) {
+            if(count+1 == length)
+              break;
+            while(true) {
+              var random = Math.floor(Math.random() * length);
+              console.log("random = "+random);
+              var notSame = false;
+              for(var j = 0 ; j < arr.length ; j++) {
+                if(random == arr[j])
+                  notSame = true;
+              }
+              if(!notSame && random != first) {
+                arr.push(random);
+                count++;
+                break;
+              }
+            }
+          }
+          var first_picture = rows[first].item_picture;
+          var first_id = rows[first].item_id;
+          var bottoms = [];
+          for(var i = 0 ; i < arr.length ; i++) {
+            bottoms.push({ id: rows[arr[i]].item_id, picture: rows[arr[i]].item_picture });
+          }
+          console.log(bottoms);
+        } // end else
+        var user = { status: 'log-in-success',
+                      user_name: req.session['user_name'],
+                      user_addr: req.session['user_addr'],
+                      user_phone: req.session['user_phone'],
+                      user_pass: req.session['user_pass'],
+                      user_email: req.session['user_email'],
+                      user_contact: req.session['user_contact'] };
+        res.render('fronts/index.ejs', { user: user, page: 'home', first_picture: first_picture, first_id: first_id, bottoms: bottoms });
+      });
+      // res.render('fronts/index.ejs', { page: 'log-in', status: 'log-in-success' });
+      console.log("req session user"+req.session.user);
+    }
+  });
+});
 /* GET home page. */
 router.get('/', function(req, res, next) {
   db.getItemLists(function(err, rows, fields) {
@@ -49,18 +114,46 @@ router.get('/', function(req, res, next) {
       }
       console.log(bottoms);
     } // end else
-    res.render('fronts/index.ejs', { page: 'home', first_picture: first_picture, first_id: first_id, bottoms: bottoms });
+    var user = { status: 'log-in-success',
+                  user_name: req.session['user_name'],
+                  user_addr: req.session['user_addr'],
+                  user_phone: req.session['user_phone'],
+                  user_pass: req.session['user_pass'],
+                  user_email: req.session['user_email'],
+                  user_contact: req.session['user_contact'] };
+    if(req.session.user == undefined)
+      user['status'] = 'log-in-failed';
+    res.render('fronts/index.ejs', { user: user, page: 'home', first_picture: first_picture, first_id: first_id, bottoms: bottoms });
   });
 });
+
 router.get('/about', function(req, res, next) {
-  res.render('fronts/about.ejs', { page: 'about' });
+  var user = { status: 'log-in-success',
+                user_name: req.session['user_name'],
+                user_addr: req.session['user_addr'],
+                user_phone: req.session['user_phone'],
+                user_pass: req.session['user_pass'],
+                user_email: req.session['user_email'],
+                user_contact: req.session['user_contact'] };
+  if(req.session.user == undefined)
+    user['status'] = 'log-in-failed';
+  res.render('fronts/about.ejs', { user: user, page: 'about' });
 });
 router.get('/item', function(req, res, next) {
   db.getItemLists(function(err, rows, fields) {
     if(rows.length == 0) {
       res.render('fronts/null-item.ejs', { page: 'menu', items: rows });
     }
-    res.render('fronts/item.ejs', { page: 'menu', items: rows, id: rows[0].item_id, name: rows[0].item_name, picture: rows[0].item_picture, price: rows[0].item_price, stock: rows[0].item_stock, description: rows[0].item_description});
+    var user = { status: 'log-in-success',
+                  user_name: req.session['user_name'],
+                  user_addr: req.session['user_addr'],
+                  user_phone: req.session['user_phone'],
+                  user_pass: req.session['user_pass'],
+                  user_email: req.session['user_email'],
+                  user_contact: req.session['user_contact'] };
+    if(req.session.user == undefined)
+      user['status'] = 'log-in-failed';
+    res.render('fronts/item.ejs', { user: user, page: 'menu', items: rows, id: rows[0].item_id, name: rows[0].item_name, picture: rows[0].item_picture, price: rows[0].item_price, stock: rows[0].item_stock, description: rows[0].item_description});
   });
 });
 router.get('/item/:itemId', function(req, res, next) {
@@ -71,18 +164,49 @@ router.get('/item/:itemId', function(req, res, next) {
       res.render('fronts/null-item.ejs', { page: 'menu', items: items });
     }
     db.findItem(itemId, function(err, rows, fields){
-      res.render('fronts/item.ejs', { page: 'menu', items: items, id: rows[0].item_id, name: rows[0].item_name, picture: rows[0].item_picture, price: rows[0].item_price, stock: rows[0].item_stock, description: rows[0].item_description});
+      var user = { status: 'log-in-success',
+                    user_name: req.session['user_name'],
+                    user_addr: req.session['user_addr'],
+                    user_phone: req.session['user_phone'],
+                    user_pass: req.session['user_pass'],
+                    user_email: req.session['user_email'],
+                    user_contact: req.session['user_contact'] };
+      if(req.session.user == undefined)
+        user['status'] = 'log-in-failed';
+      res.render('fronts/item.ejs', { user: user, page: 'menu', items: items, id: rows[0].item_id, name: rows[0].item_name, picture: rows[0].item_picture, price: rows[0].item_price, stock: rows[0].item_stock, description: rows[0].item_description});
     });
   });
 });
 router.get('/register', function(req, res, next) {
-  res.render('fronts/register.ejs', { page: 'register' });
+  var user = { status: 'log-in-success',
+                user_name: req.session['user_name'],
+                user_addr: req.session['user_addr'],
+                user_phone: req.session['user_phone'],
+                user_pass: req.session['user_pass'],
+                user_email: req.session['user_email'],
+                user_contact: req.session['user_contact'] };
+  if(req.session.user == undefined)
+    user['status'] = 'log-in-failed';
+  res.render('fronts/register.ejs', { user: user, page: 'register-bttn' });
 });
 router.get('/log-in', function(req, res, next) {
-  res.render('fronts/log-in.ejs', { page: 'log-in' });
+  var user = { status: 'log-in-success',
+                user_name: req.session['user_name'],
+                user_addr: req.session['user_addr'],
+                user_phone: req.session['user_phone'],
+                user_pass: req.session['user_pass'],
+                user_email: req.session['user_email'],
+                user_contact: req.session['user_contact'] };
+  if(req.session.user == undefined)
+    user['status'] = 'not-login';
+
+  res.render('fronts/log-in.ejs', { user: user, page: 'log-in-bttn' });
+});
+router.post('/logout', function(req, res, next) {
+  req.session.destroy();
 });
 router.get('/log-out', function(req, res, next) {
-  res.render('fronts/log-out.ejs', { page: 'log-out' });
+  res.render('fronts/log-out.ejs', { page: 'log-out-bttn' });
 });
 router.get('/cart', function(req, res, next) {
   res.render('fronts/cart.ejs', { page: 'cart' });
@@ -92,10 +216,125 @@ router.get('/cart', function(req, res, next) {
 //   res.render('fronts/burger.ejs', { page: 'menu', menu_name: menu_name });
 // });
 router.get('/contact', function(req, res, next) {
-  res.render('fronts/contact.ejs', { page: 'contact' });
+  var user = { status: 'log-in-success',
+                user_name: req.session['user_name'],
+                user_addr: req.session['user_addr'],
+                user_phone: req.session['user_phone'],
+                user_pass: req.session['user_pass'],
+                user_email: req.session['user_email'],
+                user_contact: req.session['user_contact'] };
+  if(req.session.user == undefined)
+    user['status'] = 'log-in-failed';
+  res.render('fronts/contact.ejs', { user: user, page: 'contact' });
 });
-router.get('/blog', function(req, res, next) {
-  res.render('fronts/blog.ejs', { page: 'blog' });
+router.get('/user/delete/:itemId', function(req, res, next) {
+  var item_id = req.params.itemId;
+  var user_id = 1; //TODO: dummy req.session['user_id'];
+  db.deleteReserveFromId(user_id, item_id, function(err, rows, fields) {
+    var user = { status: 'log-in-success',
+                  user_name: req.session['user_name'],
+                  user_addr: req.session['user_addr'],
+                  user_phone: req.session['user_phone'],
+                  user_pass: req.session['user_pass'],
+                  user_email: req.session['user_email'],
+                  user_contact: req.session['user_contact'] };
+    if(req.session.user == undefined)
+      user['status'] = 'log-in-failed';
+    db.getReserveItemsFromId(1, function(err, reserves, fields) { //TODO: 3 is dummy user id
+      if(reserves.length == 0) {
+        res.render('fronts/user-item.ejs', { reserves: {}, user: user, page: 'user-item' });
+      } else {
+        res.render('fronts/user-item.ejs', { reserves: reserves, user: user, page: 'user-item' });
+      }
+    });
+  });
+});
+router.get('/delete/:itemId', function(req, res, next) {
+  // res.json("delete item id");
+  var item_id = req.params.itemId;
+  db.deleteItemFromId(item_id, function(err) {
+    var user = { status: 'log-in-success',
+                  user_name: req.session['user_name'],
+                  user_addr: req.session['user_addr'],
+                  user_phone: req.session['user_phone'],
+                  user_pass: req.session['user_pass'],
+                  user_email: req.session['user_email'],
+                  user_contact: req.session['user_contact'] };
+    if(req.session.user == undefined)
+      user['status'] = 'log-in-failed';
+    db.getShopItems(2, function(err, rows, fields) { //TODO: 3 is dummy user id
+      if(rows.length == 0) {
+        res.render('fronts/shop-item.ejs', { shop: {}, items: {}, user: user, page: 'shop-item' });
+      } else {
+        db.getShopFromId(rows[0].shop_id, function(err, shop, fields) {
+          res.render('fronts/shop-item.ejs', { shop: shop, items: rows, user: user, page: 'shop-item' });
+        });
+      }
+    });
+  });
+});
+router.post('/edit', function(req, res, next) {
+  console.log("call post edit service");
+  var obj = req.body;
+  db.updateItemById(obj, function(err, rows, fields) {
+    res.json("edit success");
+  });
+});
+router.get('/edit/:itemId', function(req, res, next) {
+  var item_id = req.params.itemId;
+  var user = { status: 'log-in-success',
+                user_name: req.session['user_name'],
+                user_addr: req.session['user_addr'],
+                user_phone: req.session['user_phone'],
+                user_pass: req.session['user_pass'],
+                user_email: req.session['user_email'],
+                user_contact: req.session['user_contact'] };
+  if(req.session.user == undefined)
+    user['status'] = 'log-in-failed';
+  db.getItemFromId(item_id, function(err, rows, fields) {
+    res.render('fronts/edit.ejs', { item: rows[0], user: user, page: 'edit' });
+  })
+});
+router.get('/shop/item', function(req, res, next) {
+  var user = { status: 'log-in-success',
+                user_name: req.session['user_name'],
+                user_addr: req.session['user_addr'],
+                user_phone: req.session['user_phone'],
+                user_pass: req.session['user_pass'],
+                user_email: req.session['user_email'],
+                user_contact: req.session['user_contact'] };
+  if(req.session.user == undefined)
+    user['status'] = 'log-in-failed';
+  db.getShopItems(1, function(err, rows, fields) { //TODO: 3 is dummy user id
+    if(rows.length == 0) {
+      res.render('fronts/shop-item.ejs', { shop: {}, items: {}, user: user, page: 'shop-item' });
+    } else {
+      db.getShopFromId(rows[0].shop_id, function(err, shop, fields) {
+        res.render('fronts/shop-item.ejs', { shop: shop, items: rows, user: user, page: 'shop-item' });
+      });
+    }
+  });
+});
+router.get('/user/item', function(req, res, next) { //TODO:here join table
+  var user = { status: 'log-in-success',
+                user_name: req.session['user_name'],
+                user_addr: req.session['user_addr'],
+                user_phone: req.session['user_phone'],
+                user_pass: req.session['user_pass'],
+                user_email: req.session['user_email'],
+                user_contact: req.session['user_contact'] };
+  if(req.session.user == undefined)
+    user['status'] = 'log-in-failed';
+  db.getReserveItemsFromId(1, function(err, reserves, fields) { //TODO: 3 is dummy user id
+    if(reserves.length == 0) {
+      res.render('fronts/user-item.ejs', { reserves: {}, user: user, page: 'user-item' });
+    } else {
+      res.render('fronts/user-item.ejs', { reserves: reserves, user: user, page: 'user-item' });
+      // db.getUserFromId(rows[0].user_id, function(err, shop, fields) {
+      //   res.render('fronts/blog.ejs', { shop: shop, items: rows, user: user, page: 'user-item' });
+      // });
+    }
+  });
 });
 router.get('/shake', function(req, res, next) {
   res.render('fronts/shake.ejs', { page: 'shake' });

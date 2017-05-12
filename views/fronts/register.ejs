@@ -26,11 +26,11 @@
 
 					<!-- <input type="button" class="button" value="Shop"> -->
 					<input type="button" class="button" value="User">
-          	<form>
+          	<form action="\log-in">
 						<label for="email"> <span>Your E-mail:</span>
 							<input type="text" name="email" id="email">
 						</label>
-						<label for="password" > <span>Password:</span>
+						<label for="password"> <span>Password:</span>
 							<input type="password" name="password" id="password">
 						</label>
 						<label for="Reenter-password" > <span>Re-enter password:</span>
@@ -48,7 +48,7 @@
 						<label for="Emergency-contact"> <span class="text">Emergency-contact:</span>
 							<input type="text" name="Emergency-contact" id="emergency-contact">
 						</label>
-						<input type="submit-bttn" value="" id="submit-register-bttn">
+						<input type="submit" value="" id="submit-register-bttn">
 					</form>
 				</div>
 			</div>
@@ -119,6 +119,7 @@ function isEmptyOrSpaces(str){
 				} else if(result.status == 'success') {
 					alert("Register success");
 					$('#password').val("");
+					$('#name').val("");
 					$('#re-password').val("");
 					$("#email").val("");
 					$("#phone").val("");
@@ -132,3 +133,4 @@ function isEmptyOrSpaces(str){
 		});
 	});
 </script>
+<% include login-session.js %>
