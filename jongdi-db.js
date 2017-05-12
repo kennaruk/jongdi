@@ -49,6 +49,7 @@ exports.tmp = function() {
     }
   });
 }
+
 exports.reserve = function(user_id, item_id, callback) {
   var execute = 'INSERT INTO reserve (user_id, item_id) VALUES ('+user_id+', '+item_id+');'
   console.log(execute);
@@ -243,9 +244,37 @@ exports.register = function(name, addr, phone, pass, email, contact, callback) {
     }
   });
 }
+exports.registerShop = function(email, pass, name, tel, callback) {
+  var exec = 'INSERT INTO shop (shop_email, shop_pass, shop_name, shop_tel) VALUES (\''+email+'\', \''+pass+'\', \''+name+'\', '+tel+');';
+  connection.query(exec, function(err, rows) {
+    if(!err) {
+      callback(err);
+      console.log("Register Shop success");
+    } else {
+      console.log("register shop failed");
+      callback(err);
+    }
+  })
+}
 // db.register('kenfromjs', 'test', '0832619668', 'kenn', 'wow');
+exports.isShopRegister = function(email, callback) {
+  var execute = 'SELECT shop_email FROM shop;';
+    connection.query(execute, function(err, rows, fields) {
+      if(!err) {
+        for(var i = 0 ; i < rows.length ; i++) {
+          if(email == rows[i].shop_email) {
+            callback(true);
+            return;
+          }
+        }
+        callback(false);
+      } else {
+        console.log("is shop registered db err");
+      }
+    });
+}
 exports.isRegister = function(email, callback) {
-  connection.query('SELECT * FROM user', function(err, rows, fields) {
+  connection.query('SELECT user_email FROM user', function(err, rows, fields) {
     if(!err) {
       console.log("wow");
       for(var i = 0 ; i < rows.length ; i++) {

@@ -395,6 +395,34 @@ router.get('/hotdog', function(req, res, next) {
 router.get('/breakfast', function(req, res, next) {
   res.render('fronts/breakfast.ejs', { page: 'breakfast' });
 });
+router.post('/register/shop', function(req, res, next) {
+    console.log("register shop service call");
+    var name = req.body.name;
+    var phone = req.body.phone;
+    var email = req.body.email;
+    var password = req.body.password;
+    console.log("register shop service call 2");
+
+    db.isShopRegister(email, function(is) {
+      console.log("register shop service call 3");
+      if(is) {
+        console.log("isRegister router");
+        res.json({ status: "isRegisted" });
+      } else {
+        console.log("not Register router");
+        db.registerShop(email, password, name, phone, function(err) {
+          console.log("register shop service call 4");
+          if(err) {
+            console.log("res err");
+            res.json({ status: "err" });
+          } else {
+            console.log("res success");
+            res.json({ status: "success" });
+          }
+        });
+      }
+    });
+});
 router.post('/register', function(req, res, next){
   var name = req.body.name;
   var phone = req.body.phone;
