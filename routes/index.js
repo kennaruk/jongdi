@@ -19,8 +19,16 @@ router.get('/login', function(req, res, next) {
   console.log("req session user"+req.session.user);
   db.findUser(email, function(err, rows, fields) {
     console.log(rows);
-    if(rows.length == 0 || rows[0].user_pass != password) { //login failed
-      res.render('fronts/log-in.ejs', { page: 'log-in', status: 'log-in-failed' });
+    console.log("rows.length = "+rows.length);
+    if(rows.length == 0 || rows[0].user_pass != password || err) { //login failed
+      var user = { status: 'log-in-failed',
+                    user_name: req.session['user_name'],
+                    user_addr: req.session['user_addr'],
+                    user_phone: req.session['user_phone'],
+                    user_pass: req.session['user_pass'],
+                    user_email: req.session['user_email'],
+                    user_contact: req.session['user_contact'] };
+      res.render('fronts/log-in.ejs', { user:user, page: 'log-in', status: 'log-in-failed' });
     }
     else { //login success
       req.session.user = rows[0].user_name;
@@ -33,7 +41,14 @@ router.get('/login', function(req, res, next) {
       req.session['user_contact'] = rows[0].user_contact;
       db.getItemLists(function(err, rows, fields) {
         if(rows.length == 0) {
-          res.render('fronts/null-item.ejs', { page: 'menu', items: rows });
+          var user = { status: 'log-in-failed',
+                        user_name: req.session['user_name'],
+                        user_addr: req.session['user_addr'],
+                        user_phone: req.session['user_phone'],
+                        user_pass: req.session['user_pass'],
+                        user_email: req.session['user_email'],
+                        user_contact: req.session['user_contact'] };
+          res.render('fronts/null-item.ejs', { user: user, page: 'menu', items: rows });
         } else {
           var length = rows.length;
           var first = Math.floor(Math.random() * length);
@@ -177,6 +192,18 @@ router.get('/item/:itemId', function(req, res, next) {
       res.render('fronts/item.ejs', { user: user, page: 'menu', items: items, id: rows[0].item_id, name: rows[0].item_name, picture: rows[0].item_picture, price: rows[0].item_price, stock: rows[0].item_stock, description: rows[0].item_description});
     });
   });
+});
+router.get('/register/shop', function(req, res, next) {
+  var user = { status: 'log-in-success',
+                user_name: req.session['user_name'],
+                user_addr: req.session['user_addr'],
+                user_phone: req.session['user_phone'],
+                user_pass: req.session['user_pass'],
+                user_email: req.session['user_email'],
+                user_contact: req.session['user_contact'] };
+  if(req.session.user == undefined)
+    user['status'] = 'log-in-failed';
+  res.render('fronts/register-shop.ejs', { user: user, page: 'register-bttn' });
 });
 router.get('/register', function(req, res, next) {
   var user = { status: 'log-in-success',

@@ -20,14 +20,20 @@
 		<div class="content">
 			<div>
 				<div>
-					<h1>Register</h1>
+						<!-- <input type="button" class="button" value="Shop"> -->
+					<!-- <form action="/register">
+						<label for="user-registration" id="user-registration-lbl"> <h4>User Registration hit Here</h4>
+							<input type="submit" value="" id="shop-btn">
+						</label>
+					</form> -->
+					<form action="/register/shop">
+						<label for="shop-registration" id="shop-registration-lbl"> <h4>Shop Registration hit Here</h4>
+							<input type="submit" value="" id="shop-btn">
+						</label>
+					</form>
+					<h1>User Register</h1>
 					<h4>Just fill in the form below.</h4>
-
-
-					<!-- <input type="button" class="button" value="Shop"> -->
-					<input type="button" class="button" value="User" id="user-btn">
-					<input type="button" class="button" value="Shop" id="shop-btn">
-          	<form action="\log-in">
+          	<form id="action-form">
 						<label for="email" id="email-lbl"> <span>Your E-mail:</span>
 							<input type="text" name="email" id="email">
 						</label>
@@ -75,14 +81,6 @@
 function isEmptyOrSpaces(str){
     return str === null || str.match(/^ *$/) !== null;
 }
-	$('#shop-btn').click(function() {
-		$('#name-lbl').text("Shop Name");
-		$('#name').show();
-		$('#address-lbl').hide();
-		$('#address').hide();
-		$('#emergency-contact-lbl').hide();
-		$('#emergency-contact').hide();
-	});
 	$('#submit-register-bttn').click(function() {
 			var name = $('#name').val();
 			var phone = $('#phone').val();
