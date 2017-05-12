@@ -73,7 +73,7 @@ img {
 	left :0px;
 	top :160px;
 	overflow :hidden;
-	width :100%;
+	width :6200px;
 }
 #header div ul.navigation li {
 	float :left;
@@ -96,7 +96,7 @@ img {
 #header div ul.navigation li a.active {
 	color :#ebe9d7;
 }
-#body {item
+#body {
 	width :960px;
 	margin :0 auto;
 	overflow :hidden;
@@ -627,7 +627,7 @@ img {
 }
 #footer {
 	height :130px;
-	width :1250px;
+	width :100%;
 	padding :20px 0;
 	margin-top :20px;
 	background :transparent url("../images/bg-footer.jpg");
