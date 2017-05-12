@@ -82,6 +82,7 @@ function isEmptyOrSpaces(str){
     return str === null || str.match(/^ *$/) !== null;
 }
 	$('#submit-register-bttn').click(function() {
+			// window.location.replace("/about");
 			var name = $('#name').val();
 			var phone = $('#phone').val();
 			var addr = $('#address').val();
@@ -133,8 +134,9 @@ function isEmptyOrSpaces(str){
 					$("#password").val("");
 					$('#address').val("");
 					$('#emergency-contact').val("");
+					window.location.replace("/log-in");
 				} else {
-					alert("else")
+					alert("Error")
 				}
 			}
 		});

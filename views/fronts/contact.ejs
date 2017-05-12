@@ -4,30 +4,33 @@
 		<div class="content">
 			<div>
 				<div>
-					<h1>Contact</h1>
+					<h1>Adding Some Stuff & Items Here!!</h1>
 					<p>
 
 					</p>
-					<h4>Comments and Suggestions? Just fill in the form below.</h4>
-					<form action="contact.html">
-						<label for="name"> <span class="text">Your Name:</span>
-							<input type="text" name="name" id="name">
+					<h4>Wanna sell the tickets? Just fill in the form below.</h4>
+					<form action="javascript:void(0);">
+						<label for="name"> <span class="text">Ticket Name:</span>
+							<input type="text" name="name" id="item-name">
 						</label>
-						<label for="email"> <span>Your E-mail:</span>
-							<input type="text" name="email" id="email">
+						<label for="email"> <span>Ticket Price:</span>
+							<input type="text" name="email" id="item-price">
 						</label>
-						<label for="subject"> <span>Subject:</span>
-							<input type="text" name="subject" id="subject">
+						<label for="subject"> <span>Ticket Stock:</span>
+							<input type="text" name="subject" id="item-stock">
 						</label>
-						<label for="message"> <span>Your Message:</span>
-							<textarea name="message" id="message"></textarea>
+						<label for="subject"> <span>Ticket Picture (URL):</span>
+							<input type="text" name="subject" id="item-pic">
 						</label>
-						<input type="submit" value="">
+						<label for="message"> <span>Ticket Description:</span>
+							<textarea name="message" id="item-des"></textarea>
+						</label>
+						<input type="submit" value="" id="item-add-btn">
 					</form>
 				</div>
 			</div>
 		</div>
-		<div class="sidebar">
+		<!-- <div class="sidebar">
 			<h1>Open Everyday</h1>
 			<span>including holidays</span> <span>from 8AM until 1AM</span>
 			<h1>Address</h1>
@@ -36,8 +39,61 @@
 			<span>972-879-4317</span>
 			<h1>Thank you <br><br>for<br><br> your support</h1>
 			<span</span> <span></span> <a href="breakfast.html" class="download">&nbsp;</a> </div>
-	</div>
+	</div> -->
 	<% include footer.ejs %>
 </body>
 </html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js" type="text/javascript"></script>
+<script>
+	function isEmptyOrSpaces(str){
+	    return str === null || str.match(/^ *$/) !== null;
+	}
+	$('#item-add-btn').click(function() {
+		var item_name = $('#item-name').val();
+		console.log(item_name);
+		var item_price = $('#item-price').val();
+		console.log(item_price);
+		var item_stock = $('#item-stock').val();
+		console.log(item_stock);
+		var item_picture = $('#item-pic').val();
+		console.log(item_picture);
+		var item_description = $('#item-des').val();
+		console.log(item_description);
+		if(isEmptyOrSpaces(item_name) || isEmptyOrSpaces(item_price) ||
+		isEmptyOrSpaces(item_stock) || isEmptyOrSpaces(item_picture) ||
+		isEmptyOrSpaces(item_description)) {
+			alert("Some field is blank, please enter it.");
+			return;
+		}
+		if(isNaN(item_price)) {
+			alert("Ticket Price must be a number.");
+			$('#item-price').val("");
+		}
+		if(isNaN(item_stock)) {
+			alert("Ticket Stock must be a number.");
+			$('#item-stock').val("");
+		}
+		var obj = {};
+		obj['item_name'] = item_name;
+		obj['item_price'] = item_price;
+		obj['item_stock'] = item_stock;
+		obj['item_picture'] = item_picture;
+		obj['item_description'] = item_description;
+		$.ajax({
+			type: "post",
+			data: obj,
+			dataType: "json",
+			url: "/shop/add/item",
+			success: function(result) {
+				console.log("result = "+result);
+				if(result.status == 'success') {
+					alert("Add Ticket Success");
+					window.location.replace("/shop/item");
+				}	else {
+					alert("Add Error");
+				}
+			}
+		});
+	});
+</script>
 <% include login-session.js %>

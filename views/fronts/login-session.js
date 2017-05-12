@@ -22,6 +22,7 @@
       $('#user-item').show();
     } else if('<%=user['user_status']%>' == 'shop') {
       $('#shop-item').show();
+      $('#contact').show();
     }
     if('<%=user['user_status']%>' != 'shop') {
       $('#menu').show();

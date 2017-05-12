@@ -80,6 +80,19 @@ exports.deleteReserveFromId = function(user_id, item_id, callback) {
     }
   });
 }
+exports.addItem = function(item, shop_id, callback) {
+  console.log("add item call "+item['item_name']);
+  var execute = 'INSERT INTO item (item_name, item_price, item_stock, item_picture, item_description, shop_id) VALUES ('+'\''+item['item_name']+'\', '+item['item_price']+', '+item['item_stock']+', \''+item['item_picture']+'\', \''+item['item_description']+'\', '+shop_id+');';
+  // var execute = "TEST";
+  console.log(execute);
+  connection.query(execute, function(err, rows, fields) {
+    if(!err)
+      callback(err, rows, fields);
+    else {
+      console.log("add item db err");
+    }
+  });
+};
 exports.deleteItemFromId = function(item_id, callback) {
   var execute = 'DELETE FROM reserve WHERE item_id = '+item_id+';';
   console.log(execute);

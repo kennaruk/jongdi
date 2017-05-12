@@ -565,4 +565,28 @@ router.post('/register', function(req, res, next){
     }
   });
 });
+router.post('/shop/add/item', function(req, res, next) {
+  console.log("pass 569");
+  var item_name = req.body.item_name;
+  var item_price = req.body.item_price;
+  var item_stock = req.body.item_stock;
+  var item_picture = req.body.item_picture;
+  var item_description = req.body.item_description;
+  var item = { item_name: item_name,
+                item_price: item_price,
+                item_stock: item_stock,
+                item_picture: item_picture,
+                item_description: item_description };
+  var shop_id = req.session['user_id'];
+  console.log(item);
+  console.log(shop_id);
+  console.log("pass here 580");
+  db.addItem(item, shop_id, function(err, rows, fields) {
+    if(!err)
+      res.json({status: 'success'});
+    else {
+      res.json({status: 'err'});
+    }
+  });
+});
 module.exports = router;
