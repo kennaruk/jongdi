@@ -62,7 +62,7 @@ exports.reserve = function(user_id, item_id, callback) {
   });
 };
 exports.deleteReserveFromId = function(user_id, item_id, callback) {
-  var execute = 'DELETE FROM reserve WHERE user_id = '+user_id+' AND item_id = '+item_id+';';
+  var execute = 'DELETE FROM reserve WHERE user_id = '+user_id+' AND item_id = '+item_id+' LIMIT 1;';
   console.log(execute);
 
   connection.query(execute, function(err, rows, fields) {
@@ -164,6 +164,17 @@ exports.getReserveItemsFromId = function(user_id, callback) {
 //   console.log("rows = "+rows.length);
 //   console.log(rows);
 // });
+exports.findShopUser = function(email, callback) {
+  var execute = 'SELECT * FROM shop WHERE shop_email = \''+email+'\';';
+  console.log(execute);
+  connection.query(execute, function(err, rows, fields) {
+    if(!err) {
+      callback(err, rows, fields);
+    } else {
+      console.log("find shop user error db");
+    }
+  })
+}
 exports.findUser = function(email, callback) {
   var execute = 'SELECT * FROM user WHERE user_email = \''+email+'\';';
   console.log(execute);

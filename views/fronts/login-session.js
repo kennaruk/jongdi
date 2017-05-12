@@ -5,7 +5,7 @@
       $('#log-out-bttn').hide();
       $('#log-in-bttn').show();
       $('#register-bttn').show();
-      if('<%= page %>' == 'log-in')
+      if('<%= page %>' == 'log-in' || '<%= page %>' =='shop-log-in')
 			   alert('Login failed, please try again.');
 		} else if('<%= user['status'] %>' == 'log-in-success') { //login status
       $('#log-out-bttn').show();
@@ -18,10 +18,13 @@
       $('#log-in-bttn').show();
       $('#register-bttn').show();
     }
-    if('<%=user['state']%>' == 'user') {
+    if('<%=user['user_status']%>' == 'user') {
       $('#user-item').show();
-    } else if('<%=user['state']%>' == 'shop') {
+    } else if('<%=user['user_status']%>' == 'shop') {
       $('#shop-item').show();
+    }
+    if('<%=user['user_status']%>' != 'shop') {
+      $('#menu').show();
     }
     console.log("status = "+'<%=user['status']%>');
     $('#<%=page%>').addClass("active");
