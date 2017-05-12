@@ -54,9 +54,13 @@ exports.reserve = function(user_id, item_id, callback) {
   var execute = 'INSERT INTO reserve (user_id, item_id) VALUES ('+user_id+', '+item_id+');'
   console.log(execute);
   connection.query(execute, function(err, rows, fields) {
-    if(!err)
+    if(!err) {
+      connection.query('UPDATE item SET item_stock = item_stock - 1 WHERE item_id = '+item_id+';', function(err, rows, fields) {
+        if(err)
+          console.log("minus item db err");
+      });
       callback(err, rows, fields);
-    else {
+    } else {
       console.log("reserve db err");
     }
   });
@@ -64,11 +68,14 @@ exports.reserve = function(user_id, item_id, callback) {
 exports.deleteReserveFromId = function(user_id, item_id, callback) {
   var execute = 'DELETE FROM reserve WHERE user_id = '+user_id+' AND item_id = '+item_id+' LIMIT 1;';
   console.log(execute);
-
   connection.query(execute, function(err, rows, fields) {
-    if(!err)
-      callback(err, rows, fields);
-    else {
+    if(!err) {
+      connection.query('UPDATE item SET item_stock = item_stock + 1 WHERE item_id = '+item_id+';', function(err, rows, fields) {
+        if(err)
+          console.log("increase item db err");
+        callback(err, rows, fields);
+      });
+    } else {
       console.log("delete reserve from id db err");
     }
   });
