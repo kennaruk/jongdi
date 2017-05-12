@@ -110,7 +110,26 @@ exports.findItem = function(item, callback) {
     }
   });
 }
-
+exports.updateItemById = function(obj, callback) {
+  var execute = 'UPDATE item SET item_name = \''+obj.item_name+'\', item_price = '+obj.item_price+', item_stock = '+obj.item_stock+', item_picture = \''+obj.item_picture+'\' WHERE item_id = '+obj.item_id+';';
+  connection.query(execute, function(err, rows, fields) {
+    if(!err) {
+      callback(err, rows, fields);
+    } else {
+      console.log("update item from id db error");
+    }
+  })
+}
+exports.getItemFromId = function(item_id, callback) {
+  var execute = 'SELECT * from item WHERE item_id = '+item_id+';';
+  connection.query(execute, function(err, rows, fields) {
+    if(!err) {
+      callback(err, rows, fields);
+    } else {
+      console.log("get item from id db error");
+    }
+  });
+}
 exports.getItemLists = function(callback) {
   var execute = 'SELECT * from item';
   connection.query(execute, function(err, rows, fields) {

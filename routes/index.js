@@ -251,8 +251,27 @@ router.get('/delete/:itemId', function(req, res, next) {
     });
   });
 });
+router.post('/edit', function(req, res, next) {
+  console.log("call post edit service");
+  var obj = req.body;
+  db.updateItemById(obj, function(err, rows, fields) {
+    res.json("edit success");
+  });
+});
 router.get('/edit/:itemId', function(req, res, next) {
-  res.json("edit itemid");
+  var item_id = req.params.itemId;
+  var user = { status: 'log-in-success',
+                user_name: req.session['user_name'],
+                user_addr: req.session['user_addr'],
+                user_phone: req.session['user_phone'],
+                user_pass: req.session['user_pass'],
+                user_email: req.session['user_email'],
+                user_contact: req.session['user_contact'] };
+  if(req.session.user == undefined)
+    user['status'] = 'log-in-failed';
+  db.getItemFromId(item_id, function(err, rows, fields) {
+    res.render('fronts/edit.ejs', { item: rows[0], user: user, page: 'edit' });
+  })
 });
 router.get('/blog', function(req, res, next) {
   var user = { status: 'log-in-success',
