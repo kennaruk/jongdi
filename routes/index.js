@@ -41,48 +41,7 @@ router.get('/shop/login', function(req, res, next) {
         req.session['user_pass'] = rows[0].shop_pass;
         req.session['user_email'] = rows[0].shop_email;
         req.session['user_status'] = 'shop';
-        db.getItemLists(function(err, rows, fields) {
-          if(rows.length == 0) {
-            var user = { status: 'log-in-success',
-                          user_name: req.session['user_name'],
-                          user_addr: req.session['user_addr'],
-                          user_phone: req.session['user_phone'],
-                          user_pass: req.session['user_pass'],
-                          user_email: req.session['user_email'],
-                          user_contact: req.session['user_contact'],
-                          user_status: req.session['user_status']};
-            res.render('fronts/null-item.ejs', { user: user, page: 'menu', items: rows });
-          } else {
-            var length = rows.length;
-            var first = Math.floor(Math.random() * length);
-            var count = 0;
-            var arr = [];
-            for(var i = 0 ; i < 3 ; i++) {
-              if(count+1 == length)
-                break;
-              while(true) {
-                var random = Math.floor(Math.random() * length);
-                console.log("random = "+random);
-                var notSame = false;
-                for(var j = 0 ; j < arr.length ; j++) {
-                  if(random == arr[j])
-                    notSame = true;
-                }
-                if(!notSame && random != first) {
-                  arr.push(random);
-                  count++;
-                  break;
-                }
-              }
-            }
-            var first_picture = rows[first].item_picture;
-            var first_id = rows[first].item_id;
-            var bottoms = [];
-            for(var i = 0 ; i < arr.length ; i++) {
-              bottoms.push({ id: rows[arr[i]].item_id, picture: rows[arr[i]].item_picture });
-            }
-            // console.log(bottoms);
-          } // end else
+          var user_id = req.session['user_id'];
           var user = { status: 'log-in-success',
                         user_name: req.session['user_name'],
                         user_addr: req.session['user_addr'],
@@ -91,11 +50,75 @@ router.get('/shop/login', function(req, res, next) {
                         user_email: req.session['user_email'],
                         user_contact: req.session['user_contact'],
                         user_status: req.session['user_status']};
-          res.render('fronts/index.ejs', { user: user, page: 'home', first_picture: first_picture, first_id: first_id, bottoms: bottoms });
-        });
-        // res.render('fronts/index.ejs', { page: 'log-in', status: 'log-in-success' });
-        console.log("req session shop "+req.session.user);
+          console.log(req.session.user);
+          if(req.session.user == undefined)
+            user['status'] = 'log-in-failed';
+          db.getShopItems(user_id, function(err, rows, fields) {
+            if(rows.length == 0) {
+              res.render('fronts/shop-item.ejs', { shop: {}, items: {}, user: user, page: 'shop-item' });
+            } else {
+              db.getShopFromId(rows[0].shop_id, function(err, shop, fields) {
+                res.render('fronts/shop-item.ejs', { shop: shop, items: rows, user: user, page: 'shop-item' });
+              });
+            }
+          });
       }
+        // db.getItemLists(function(err, rows, fields) {
+        //   if(rows.length == 0) {
+        //     var user = { status: 'log-in-success',
+        //                   user_name: req.session['user_name'],
+        //                   user_addr: req.session['user_addr'],
+        //                   user_phone: req.session['user_phone'],
+        //                   user_pass: req.session['user_pass'],
+        //                   user_email: req.session['user_email'],
+        //                   user_contact: req.session['user_contact'],
+        //                   user_status: req.session['user_status']};
+        //     res.render('fronts/null-item.ejs', { user: user, page: 'menu', items: rows });
+        //   }
+      //     else {
+      //       var length = rows.length;
+      //       var first = Math.floor(Math.random() * length);
+      //       var count = 0;
+      //       var arr = [];
+      //       for(var i = 0 ; i < 3 ; i++) {
+      //         if(count+1 == length)
+      //           break;
+      //         while(true) {
+      //           var random = Math.floor(Math.random() * length);
+      //           console.log("random = "+random);
+      //           var notSame = false;
+      //           for(var j = 0 ; j < arr.length ; j++) {
+      //             if(random == arr[j])
+      //               notSame = true;
+      //           }
+      //           if(!notSame && random != first) {
+      //             arr.push(random);
+      //             count++;
+      //             break;
+      //           }
+      //         }
+      //       }
+      //       var first_picture = rows[first].item_picture;
+      //       var first_id = rows[first].item_id;
+      //       var bottoms = [];
+      //       for(var i = 0 ; i < arr.length ; i++) {
+      //         bottoms.push({ id: rows[arr[i]].item_id, picture: rows[arr[i]].item_picture });
+      //       }
+      //       // console.log(bottoms);
+      //     } // end else
+      //     var user = { status: 'log-in-success',
+      //                   user_name: req.session['user_name'],
+      //                   user_addr: req.session['user_addr'],
+      //                   user_phone: req.session['user_phone'],
+      //                   user_pass: req.session['user_pass'],
+      //                   user_email: req.session['user_email'],
+      //                   user_contact: req.session['user_contact'],
+      //                   user_status: req.session['user_status']};
+      //     res.render('fronts/index.ejs', { user: user, page: 'home', first_picture: first_picture, first_id: first_id, bottoms: bottoms });
+      //   });
+      //   // res.render('fronts/index.ejs', { page: 'log-in', status: 'log-in-success' });
+      //   console.log("req session shop "+req.session.user);
+      // }
     });
 });
 router.get('/login', function(req, res, next) {

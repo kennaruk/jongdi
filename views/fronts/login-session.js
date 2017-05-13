@@ -31,6 +31,7 @@
     	$('#hello-user').text("Hello, <%= user['user_name'] %>");
     }
     if('<%=user['user_status']%>' != 'shop') {
+      $('#home').show();
       $('#menu').show();
     }
     console.log("status = "+'<%=user['status']%>');
