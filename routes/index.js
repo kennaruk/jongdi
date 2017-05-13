@@ -367,7 +367,7 @@ router.get('/contact', function(req, res, next) {
 });
 router.get('/user/delete/:itemId', function(req, res, next) {
   var item_id = req.params.itemId;
-  var user_id = 1; //TODO: dummy req.session['user_id'];
+  var user_id = req.session['user_id'];
   db.deleteReserveFromId(user_id, item_id, function(err, rows, fields) {
     var user = { status: 'log-in-success',
                   user_name: req.session['user_name'],
@@ -379,7 +379,7 @@ router.get('/user/delete/:itemId', function(req, res, next) {
                   user_status: req.session['user_status']};
     if(req.session.user == undefined)
       user['status'] = 'log-in-failed';
-    db.getReserveItemsFromId(1, function(err, reserves, fields) { //TODO: 3 is dummy user id
+    db.getReserveItemsFromId(user_id, function(err, reserves, fields) {
       if(reserves.length == 0) {
         res.render('fronts/user-item.ejs', { reserves: {}, user: user, page: 'user-item' });
       } else {
@@ -402,7 +402,7 @@ router.get('/user/reserve/:itemId', function(req, res, next) {
                   user_status: req.session['user_status']};
     if(req.session.user == undefined)
       user['status'] = 'log-in-failed';
-    db.getReserveItemsFromId(1, function(err, reserves, fields) { //TODO: 3 is dummy user id
+    db.getReserveItemsFromId(user_id, function(err, reserves, fields) {
       if(reserves.length == 0) {
         res.render('fronts/user-item.ejs', { reserves: {}, user: user, page: 'user-item' });
       } else {
@@ -414,6 +414,7 @@ router.get('/user/reserve/:itemId', function(req, res, next) {
 router.get('/delete/:itemId', function(req, res, next) {
   // res.json("delete item id");
   var item_id = req.params.itemId;
+  var user_id = req.session['user_id'];
   db.deleteItemFromId(item_id, function(err) {
     var user = { status: 'log-in-success',
                   user_name: req.session['user_name'],
@@ -425,7 +426,7 @@ router.get('/delete/:itemId', function(req, res, next) {
                   user_status: req.session['user_status']};
     if(req.session.user == undefined)
       user['status'] = 'log-in-failed';
-    db.getShopItems(2, function(err, rows, fields) { //TODO: 3 is dummy user id
+    db.getShopItems(user_id, function(err, rows, fields) {
       if(rows.length == 0) {
         res.render('fronts/shop-item.ejs', { shop: {}, items: {}, user: user, page: 'shop-item' });
       } else {
@@ -460,6 +461,7 @@ router.get('/edit/:itemId', function(req, res, next) {
   })
 });
 router.get('/shop/item', function(req, res, next) {
+  var user_id = req.session['user_id'];
   var user = { status: 'log-in-success',
                 user_name: req.session['user_name'],
                 user_addr: req.session['user_addr'],
@@ -471,7 +473,7 @@ router.get('/shop/item', function(req, res, next) {
   console.log(req.session.user);
   if(req.session.user == undefined)
     user['status'] = 'log-in-failed';
-  db.getShopItems(1, function(err, rows, fields) { //TODO: 3 is dummy user id
+  db.getShopItems(user_id, function(err, rows, fields) {
     if(rows.length == 0) {
       res.render('fronts/shop-item.ejs', { shop: {}, items: {}, user: user, page: 'shop-item' });
     } else {
@@ -481,7 +483,7 @@ router.get('/shop/item', function(req, res, next) {
     }
   });
 });
-router.get('/user/item', function(req, res, next) { //TODO:here join table
+router.get('/user/item', function(req, res, next) {
   var user = { status: 'log-in-success',
                 user_name: req.session['user_name'],
                 user_addr: req.session['user_addr'],
@@ -490,9 +492,10 @@ router.get('/user/item', function(req, res, next) { //TODO:here join table
                 user_email: req.session['user_email'],
                 user_contact: req.session['user_contact'],
                 user_status: req.session['user_status']};
+  var user_id = req.session['user_id'];
   if(req.session.user == undefined)
     user['status'] = 'log-in-failed';
-  db.getReserveItemsFromId(1, function(err, reserves, fields) { //TODO: 3 is dummy user id
+  db.getReserveItemsFromId(user_id, function(err, reserves, fields) {
     if(reserves.length == 0) {
       res.render('fronts/user-item.ejs', { reserves: {}, user: user, page: 'user-item' });
     } else {

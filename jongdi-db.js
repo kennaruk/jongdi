@@ -218,7 +218,8 @@ exports.findItem = function(item, callback) {
   });
 }
 exports.updateItemById = function(obj, callback) {
-  var execute = 'UPDATE item SET item_name = \''+obj.item_name+'\', item_price = '+obj.item_price+', item_stock = '+obj.item_stock+', item_picture = \''+obj.item_picture+'\' WHERE item_id = '+obj.item_id+';';
+  var execute = 'UPDATE item SET item_name = \''+obj.item_name+'\', item_price = '+obj.item_price+', item_stock = '+obj.item_stock+', item_picture = \''+obj.item_picture+'\', item_description = \''+obj.item_description+'\' WHERE item_id = '+obj.item_id+';';
+  console.log(execute);
   connection.query(execute, function(err, rows, fields) {
     if(!err) {
       callback(err, rows, fields);
