@@ -165,7 +165,7 @@ exports.getReserveItemsFromId = function(user_id, callback) {
   // var execute = 'SELECT * FROM reserve WHERE user_id = '+user_id+';';
   var execute = 'SELECT item.*, reserve.*, shop.*'+
                 ' FROM item INNER JOIN reserve ON item.item_id=reserve.item_id'+
-                ' INNER JOIN shop ON item.shop_id = shop.shop_id;';
+                ' INNER JOIN shop ON item.shop_id = shop.shop_id WHERE user_id = '+user_id+';';
                 // ' WHERE user_id = '+user_id+";"
                 // ' UNION'+
                 // ' SELECT shop';
