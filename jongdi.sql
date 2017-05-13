@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2017 at 06:45 AM
+-- Generation Time: May 13, 2017 at 08:12 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -64,13 +64,14 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`item_id`, `item_name`, `shop_id`, `item_price`, `item_stock`, `item_picture`, `item_description`) VALUES
-(5, 'disney', 4, 1500, 12, 'http://scenesmedia.com/wp-content/uploads/2016/11/Walt-Disney-Studios.jpg', 'The mission of the Walt Disney Company is to be one of the world\'s leading producers and providers of entertainment and information.'),
-(6, 'coldplay', 5, 3500, 10, 'https://yt3.ggpht.com/-5E9R-kUK4H0/AAAAAAAAAAI/AAAAAAAAAAA/8RWanSWSVOI/s900-c-k-no-mo-rj-c0xffffff/photo.jpg', 'Coldplay are a British rock band formed in 1996 by lead vocalist and keyboardist Chris Martin and lead guitarist Jonny Buckland at University College London (UCL). After they formed under the name Pectoralz, Guy Berryman joined the group as bassist and they changed their name to Starfish.'),
+(5, 'disney', 4, 1500, 10, 'http://scenesmedia.com/wp-content/uploads/2016/11/Walt-Disney-Studios.jpg', 'The mission of the Walt Disney Company is to be one of the world\'s leading producers and providers of entertainment and information.'),
+(6, 'coldplay', 5, 3500, 8, 'https://yt3.ggpht.com/-5E9R-kUK4H0/AAAAAAAAAAI/AAAAAAAAAAA/8RWanSWSVOI/s900-c-k-no-mo-rj-c0xffffff/photo.jpg', 'Coldplay are a British rock band formed in 1996 by lead vocalist and keyboardist Chris Martin and lead guitarist Jonny Buckland at University College London (UCL). After they formed under the name Pectoralz, Guy Berryman joined the group as bassist and they changed their name to Starfish.'),
 (7, 'catradio', 6, 1000, 11, 'http://www.thisiscat.com/themes/cat_radio/images/artist1.jpg', 'information about cat radio, the internet\'s only radio station featuring the vocal performances of cats with electronic experimental dance, tribal, and break music.'),
-(8, 'gjfao', 10, 1515, 104, 'http://www.newyorker.com/wp-content/uploads/2014/08/Stokes-Hello-Kitty2-1200.jpg', 'hello kitty'),
+(8, 'gjfao', 10, 1515, 106, 'http://www.newyorker.com/wp-content/uploads/2014/08/Stokes-Hello-Kitty2-1200.jpg', 'hello kitty'),
 (10, 'Ken', 11, 100, 10, 'https://img.buzzfeed.com/buzzfeed-static/static/2016-02/23/16/enhanced/webdr04/edit-15473-1456261671-2.jpg', 'kkkkk'),
 (12, 'ttt', 12, 500, 12, 'https://i.ytimg.com/vi/pVcIjAarcvg/maxresdefault.jpg', 'uiiuiy'),
-(13, 'test', 10, 2, 20, 'http://layarinformasi.com/wp-content/uploads/2015/02/Resep-Membuat-Donat-Empuk.jpg', 'description');
+(13, 'test', 10, 2, 20, 'http://layarinformasi.com/wp-content/uploads/2015/02/Resep-Membuat-Donat-Empuk.jpg', 'description'),
+(14, 'tarte', 13, 2100, 10, 'http://images.ulta.com/is/image/Ulta/bs_tarte_collection7', '- 6 x 0.16 oz Contouring shades in Highlight (matte highlighter), Correct (yellow correcting powder), Contour - soft (for light-to-medium skin tones), Contour - deep (for medium-to-dark skin tones), Accentuate (rosy blush), Glow (shimmer highlighter) \n- Step-by-step guide ');
 
 -- --------------------------------------------------------
 
@@ -89,7 +90,12 @@ CREATE TABLE `reserve` (
 
 INSERT INTO `reserve` (`user_id`, `item_id`) VALUES
 (27, 8),
-(27, 12);
+(27, 12),
+(28, 5),
+(30, 6),
+(31, 5),
+(31, 6),
+(31, 5);
 
 -- --------------------------------------------------------
 
@@ -121,7 +127,8 @@ INSERT INTO `shop` (`shop_id`, `shop_name`, `shop_tel`, `shop_email`, `shop_pass
 (9, 'firstshopname', 2, 'firstemail', 'a'),
 (10, 'Ken Shop', 832619668, 'k-e-n_ken@hotmail.com', 'kenshop'),
 (11, 'kk', 1234, 'ni.siraprapa@gmail.com', '1'),
-(12, 'donat', 898309536, 'donat.brown@gmail.com', 'dddddd');
+(12, 'donat', 898309536, 'donat.brown@gmail.com', 'dddddd'),
+(13, 'nishop', 987765656, 'nini@gmail.com', 'nini');
 
 -- --------------------------------------------------------
 
@@ -166,7 +173,11 @@ INSERT INTO `user` (`user_id`, `user_name`, `user_addr`, `user_phone`, `user_pas
 (24, 'wer', 'wer', '1', 'wer', 'werwre', 'wer'),
 (25, 'aa', 'addr', '1', 'a', 'aaa', 'a'),
 (26, 'siraprapa', '499 fdmk', '819025549', '029333439', 'ni.siraprapa@gmail.com', '0818075549'),
-(27, 'wararom', 'oooo gyhfg dxfd dfgf', '858423747', 'wararom26', 'wararom_26091996@hotmail.com', '0839177026');
+(27, 'wararom', 'oooo gyhfg dxfd dfgf', '858423747', 'wararom26', 'wararom_26091996@hotmail.com', '0839177026'),
+(28, 'pim', 'bkk', '812345678', 'pimpim', 'pimpim@hotmail.com', '0981123456'),
+(29, 'eve', 'bkk', '94456767', 'eveeve', 'eveeve@mail.com', '098776544'),
+(30, 'eve', 'bkk', '834476589', 'eveeve', 'eveeve@gmail.com', '0986654376'),
+(31, 'bow', 'bkk', '987767676', 'bowbow', 'bowy@hotmail.com', '0985565656');
 
 --
 -- Indexes for dumped tables
@@ -212,17 +223,17 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `shop`
 --
 ALTER TABLE `shop`
-  MODIFY `shop_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `shop_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- Constraints for dumped tables
 --
