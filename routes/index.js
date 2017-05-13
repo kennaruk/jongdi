@@ -14,13 +14,16 @@ router.use(session({
 //     return res.sendStatus(401);
 // };
 router.get('/shop/login', function(req, res, next) {
+    function isEmptyOrSpaces(str){
+        return str === null || str.match(/^ *$/) !== null;
+    }
     var email = req.query.email;
     var password = req.query.password;
     console.log("req session shop"+req.session.user);
     db.findShopUser(email, function(err, rows, fields) {
       console.log(rows);
       console.log("rows.length = "+rows.length);
-      if(rows.length == 0 || rows[0].shop_pass != password || err || email=='') { //login failed
+      if(rows.length == 0 || rows[0].shop_pass != password || err || email=='' || isEmptyOrSpaces(email)) { //login failed
         var user = { status: 'log-in-failed',
                       user_name: req.session['user_name'],
                       user_addr: req.session['user_addr'],
